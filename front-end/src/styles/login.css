@@ -1,0 +1,32 @@
+.container_login {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.box_login {
+  align-items: center;
+  background: rgba(255, 255, 255);
+  border-radius: 20px;
+  box-shadow: 0 0 26px rgba(224, 226, 236, 0.8);
+  color: black;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 70%;
+  justify-content: center;
+  padding: 20px;
+  width: 50%;
+}
+
+.message_span {
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  padding-right: 20px;
+  text-align: right;
+  width: 75%;
+}

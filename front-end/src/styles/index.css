@@ -1,0 +1,119 @@
+body {
+  background-attachment: fixed;
+  background-image: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.5)) , url('../images/background.jpeg');
+  background-position: center;
+  background-size: cover;
+  color: black;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-size: 0.7em;
+  letter-spacing: 0.04em;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+  width: 100%;
+}
+  
+button {
+  background: rgb(255, 255, 255, 0.7);
+  border: 2px solid rgba(0, 68, 159, 0.9);
+  border-radius: 7px;
+  box-shadow: 3px 3px rgb(0, 0, 0, 0.3);
+  color: rgb(0, 0, 0);
+  font-weight: bolder;
+  letter-spacing: 0.03em;
+  margin: 8px;
+  padding: 4px 16px;
+  width: 55%;
+}
+
+button img {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+button:hover:enabled {
+  box-shadow: 0 0px 12px rgba(59, 59, 59, 0.8);
+  background: rgba(255, 255, 255, 0);
+}
+  
+button:disabled {
+  background: rgba(59, 59, 59, 0.2);
+  border: 2px solid rgba(59, 59, 59, 0.7);
+  border-radius: 7px;
+  box-shadow: none;
+  color: rgba(0, 0, 0, 0.7);
+}
+  
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+h1 {
+  margin: 4px;
+}
+  
+input , select {
+  background-color: rgba(59, 59, 59, 0.2);
+  border: 0.5px solid #e2e3e400;
+  border-radius: 7px;
+  box-shadow: 0 0 4px rgba(59, 59, 59, 0.8);
+  box-sizing: border-box;
+  color: black;
+  margin: 4px 0 12px;
+  padding: 4px 12px;
+  text-align: center;
+  width: 100%;
+}
+  
+p, label {
+  text-align: left;
+  color: black; 
+  display: inline-block;
+  font-weight: bolder;
+  text-shadow: 3px 3px 15px rgba(255, 255, 255, 0.445);
+  width: 75%;
+}
+
+.imgs_cards {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+  width: 163.35px;
+}
+
+.imgs_cards p {
+  color: rgb(65, 25, 127);
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.imgs {
+  border-radius: 5px;
+  height: 134.85px;
+  left: 12px;
+  top: 367px;
+  width: 163.35px;
+}
+
+.imgs:hover {
+  box-shadow: 0px 0px 4px 4px rgb(191, 191, 191);
+}
+
+.footer {
+  background: rgba(139, 127, 127, 0.5);
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  /* Estilos específicos para telas de até 768px */
+}
+
+@media (max-width: 480px) {
+  /* Estilos específicos para telas de até 768px */
+}

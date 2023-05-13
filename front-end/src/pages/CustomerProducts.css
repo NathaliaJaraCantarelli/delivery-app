@@ -1,0 +1,6 @@
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin-left: 5%;
+}

@@ -11,7 +11,7 @@
 
 .box_login {
   align-items: center;
-  background: rgba(255, 255, 255);
+  background: white;
   border-radius: 20px;
   box-shadow: 0 0 26px rgba(224, 226, 236, 0.8);
   color: black;

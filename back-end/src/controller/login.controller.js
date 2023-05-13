@@ -1,4 +1,4 @@
-const { LoginService } = require('../service');
+const { LoginService } = require('../services');
 
 class LoginController {
   constructor() {

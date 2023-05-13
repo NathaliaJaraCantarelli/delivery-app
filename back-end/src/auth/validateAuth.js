@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const LoginService = require('../service/login.service');
-const UserValidations = require('../service/validations/user.validations');
-const LoginValidations = require('../service/validations/login.validations');
+const LoginService = require('../services/login.service');
+const UserValidations = require('../services/validations/user.validations');
+const LoginValidations = require('../services/validations/login.validations');
 const UserSequelizeRepository = require('../repositories/UserSequelize.repository');
 
 const JWT_SECRET = 'jwt_secret';

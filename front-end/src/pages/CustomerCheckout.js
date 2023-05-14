@@ -34,7 +34,7 @@ export default function CustomerCheckout() {
               `customer_checkout__element-order-table-item-number-${index}`
             }
           >
-            { product.id }
+            { index + 1 }
           </div>
           <div
             data-testid={
@@ -55,14 +55,15 @@ export default function CustomerCheckout() {
               `customer_checkout__element-order-table-unit-price-${index}`
             }
           >
-            { product.price }
+            { product.price.toString().replace('.', ',') }
           </div>
           <div
             data-testid={
               `customer_checkout__element-order-table-sub-total-${index}`
             }
           >
-            { (parseFloat(product.quantity) * parseFloat(product.price)).toFixed(2) }
+            { ((parseFloat(product.quantity) * parseFloat(product.price)).toFixed(2))
+              .toString().replace('.', ',') }
           </div>
           <button
             data-testid={
@@ -78,7 +79,7 @@ export default function CustomerCheckout() {
       <div
         data-testid="customer_checkout__element-order-total-price"
       >
-        { totalCost.toFixed(2) }
+        { totalCost.toFixed(2).toString().replace('.', ',') }
       </div>
       <div>
         <select

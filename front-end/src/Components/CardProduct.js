@@ -122,7 +122,7 @@ CardProduct.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   urlImage: PropTypes.string.isRequired,
-  totalValueFunc: PropTypes.string.isRequired,
+  totalValueFunc: PropTypes.func.isRequired,
 };
 
 export default CardProduct;

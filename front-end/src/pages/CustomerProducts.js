@@ -27,7 +27,6 @@ class CustomerProducts extends React.Component {
       const cart = carShop.filter((product) => product.quantity > 0);
       const totalCost = reduceArr(cart);
       this.setState({ totalValue: totalCost });
-      console.log(totalCost);
       if (totalCost === 0) this.setState({ buttonCart: true });
       else this.setState({ buttonCart: false });
     } else {

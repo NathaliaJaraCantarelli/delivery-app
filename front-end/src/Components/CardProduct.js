@@ -4,9 +4,9 @@ import './CardProduct.css';
 import { setLocalStorage } from '../functions/localStorageFunc';
 
 const ROUTE = 'customer_products';
-const PRICE = 'element-card-price';
+const PRICE = 'element-card-price-';
 const IMAGE = 'img-card-bg-image-';
-const TITLE = 'element-card-title';
+const TITLE = 'element-card-title-';
 const RMITEM = 'button-card-rm-item-';
 const ADDITEM = 'button-card-add-item-';
 const QUANTITY = 'input-card-quantity-';
@@ -26,32 +26,50 @@ class CardProduct extends React.Component {
     this.setState(() => ({ quantity: carQuantity.quantity }));
   }
 
-  getLocalStorage = (type) => {
+  getLocalStorage = () => {
     const { i } = this.props;
-    const quantity = JSON.parse(localStorage.getItem('CustomerProducts'));
-    quantity.map((product) => {
-      if ((product.id === i) && (type === 'add')) product.quantity += 1;
-      if ((product.id === i) && (type === 'rm')) product.quantity -= 1;
+    const { quantity } = this.state;
+    const quantityLocalStorage = JSON.parse(localStorage.getItem('CustomerProducts'));
+    quantityLocalStorage.map((product) => {
+      if ((product.id === i)) product.quantity = quantity;
       return product;
     });
-    setLocalStorage(quantity);
-    // localStorage.setItem('CustomerProducts', JSON.stringify(quantity));
+    setLocalStorage(quantityLocalStorage);
+  };
+
+  handleChange = ({ target }) => {
+    const { totalValueFunc } = this.props;
+    this.setState(
+      () => ({ quantity: Number(target.value) }),
+      () => {
+        this.getLocalStorage();
+        totalValueFunc();
+      },
+    );
   };
 
   addItem = () => {
-    const { addValue, price } = this.props;
-    this.setState((prevState) => ({ quantity: prevState.quantity + 1 }));
-    addValue(price);
-    this.getLocalStorage('add');
+    const { totalValueFunc } = this.props;
+    this.setState(
+      this.setState((prevState) => ({ quantity: prevState.quantity + 1 })),
+      () => {
+        this.getLocalStorage();
+        totalValueFunc();
+      },
+    );
   };
 
   removeItem = () => {
+    const { totalValueFunc } = this.props;
     const { quantity } = this.state;
     if (quantity > 0) {
-      const { rmValue, price } = this.props;
-      this.setState((prevState) => ({ quantity: prevState.quantity - 1 }));
-      rmValue(price);
-      this.getLocalStorage('rm');
+      this.setState(
+        this.setState((prevState) => ({ quantity: prevState.quantity - 1 })),
+        () => {
+          this.getLocalStorage();
+          totalValueFunc();
+        },
+      );
     }
   };
 
@@ -60,9 +78,9 @@ class CardProduct extends React.Component {
     const { quantity } = this.state;
     return (
       <div className="cardProduct">
+        <p>R$</p>
         <p data-testid={ `${ROUTE}__${PRICE}${i}` }>
-          R$
-          {price}
+          {price.toString().replace('.', ',')}
         </p>
         <img
           data-testid={ `${ROUTE}__${IMAGE}${i}` }
@@ -83,7 +101,8 @@ class CardProduct extends React.Component {
             data-testid={ `${ROUTE}__${QUANTITY}${i}` }
             min={ 0 }
             value={ quantity }
-            readOnly
+            name={ `${ROUTE}__${QUANTITY}${i}` }
+            onChange={ this.handleChange }
           />
           <button
             type="button"
@@ -103,8 +122,7 @@ CardProduct.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   urlImage: PropTypes.string.isRequired,
-  addValue: PropTypes.func.isRequired,
-  rmValue: PropTypes.func.isRequired,
+  totalValueFunc: PropTypes.string.isRequired,
 };
 
 export default CardProduct;

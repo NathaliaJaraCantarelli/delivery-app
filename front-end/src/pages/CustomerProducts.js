@@ -16,6 +16,7 @@ class CustomerProducts extends React.Component {
     this.state = {
       products: [],
       totalValue: 0,
+      buttonCart: true,
     };
   }
 
@@ -26,6 +27,9 @@ class CustomerProducts extends React.Component {
       const cart = carShop.filter((product) => product.quantity > 0);
       const totalCost = reduceArr(cart);
       this.setState({ totalValue: totalCost });
+      console.log(totalCost);
+      if (totalCost === 0) this.setState({ buttonCart: true });
+      else this.setState({ buttonCart: false });
     } else {
       const data = await requestData('/customer/products');
       const dataWithQuantity = data.map((dado) => {
@@ -36,6 +40,22 @@ class CustomerProducts extends React.Component {
       setLocalStorage(dataWithQuantity);
     }
   }
+
+  totalValueFunc = async () => {
+    const { totalValue } = this.state;
+    const data = JSON.parse(localStorage.getItem('CustomerProducts'));
+    if (data) {
+      const cart = data.filter((product) => product.quantity > 0);
+      const totalCost = reduceArr(cart);
+      this.setState(
+        { totalValue: totalCost },
+        () => {
+          if (totalValue === 0) this.setState({ buttonCart: true });
+          else this.setState({ buttonCart: false });
+        },
+      );
+    }
+  };
 
   addValue = async (value) => {
     const nValue = parseFloat(value);
@@ -48,7 +68,7 @@ class CustomerProducts extends React.Component {
   };
 
   render() {
-    const { totalValue, products } = this.state;
+    const { totalValue, products, buttonCart } = this.state;
     return (
       <div className="CustomerProducts">
         <Header />
@@ -62,16 +82,20 @@ class CustomerProducts extends React.Component {
               urlImage={ card.urlImage }
               addValue={ this.addValue }
               rmValue={ this.rmValue }
+              totalValueFunc={ this.totalValueFunc }
             />
           ))}
         </ul>
         <Link to="/customer/checkout">
           <button
             type="button"
+            disabled={ buttonCart }
             data-testid={ `${ROUTE}__${CART}` }
           >
             Ver carrinho: R$
-            <p data-testid={ `${ROUTE}__${VALUE}` }>{ totalValue.toFixed(2) }</p>
+            <p data-testid={ `${ROUTE}__${VALUE}` }>
+              { totalValue.toFixed(2).toString().replace('.', ',') }
+            </p>
           </button>
         </Link>
       </div>

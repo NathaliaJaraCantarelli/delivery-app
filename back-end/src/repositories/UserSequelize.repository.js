@@ -23,6 +23,11 @@ class UserSequelizeRepository {
     return user;
   }
 
+  async getByName(name) {
+    const user = await this.userModel.findOne({ where: { name } });
+    return user;
+  }
+
   async postLogin(email) {
     const user = await this.userModel.findOne({
       where: { email },
@@ -35,6 +40,16 @@ class UserSequelizeRepository {
     const user = await this.userModel.findOne({
       where: { id, email, password, role },
       attributes: ['role'],
+    });
+    return user;
+  }
+
+  async createUser(name, email, password, role) {
+    const user = await this.userModel.create({
+      name,
+      email,
+      password,
+      role,
     });
     return user;
   }

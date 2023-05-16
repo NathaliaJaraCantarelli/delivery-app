@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { requestLogin } from '../services/request';
 import '../styles/login.css';
 import logoImg from '../images/logo.jpeg';
@@ -9,6 +9,7 @@ function Login() {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [isLogged, setIsLogged] = useState(false);
   const [failedTryLogin, setFailedTryLogin] = useState(false);
+  const history = useHistory();
 
   function verifyLogin() { /* faz a verificação dos inputs de email e password */
     const { email, password } = login;
@@ -20,11 +21,11 @@ function Login() {
     setBtnDisabled(!btnState);
   }
 
-  // function onSubmit() {
-  //   const user = { email: login.email };
-  //   localStorage.setItem('user', JSON.stringify(user));
-  //   // history.push('/XXX');
-  // }
+  function onSubmit() {
+    const user = { email: login.email };
+    localStorage.setItem('user', JSON.stringify(user));
+    history.push('/register');
+  }
 
   const reqLogin = async (event) => {
     event.preventDefault();
@@ -112,7 +113,7 @@ function Login() {
         <button
           data-testid="common_login__button-register"
           type="button"
-          // onClick={ onSubmit }
+          onClick={ onSubmit }
         >
           Create Account
         </button>

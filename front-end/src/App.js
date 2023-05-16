@@ -6,11 +6,13 @@ import CustomerProducts from './pages/CustomerProducts';
 import CustomerCheckout from './pages/CustomerCheckout';
 import './styles/App.css';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
     <Switch>
       <Route path="/login" component={ Login } />
+      <Route path="/register" component={ Register } />
       <Route exact path="/">
         <Redirect to="/login" />
       </Route>

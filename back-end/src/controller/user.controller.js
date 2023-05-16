@@ -1,19 +1,26 @@
 const { UserService } = require('../services');
 
 class UserController {
-  constructor(req, res, next) {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.userService = UserService;
+  constructor() {
+    this.userService = new UserService();
   }
 
-  async getUser() {
+  async getUser(_req, res, next) {
     try {
       const users = await this.userService.getUser();
-      this.res.status(200).json({ users });
+      res.status(200).json({ users });
     } catch (error) {
-      this.next(error);
+      next(error);
+    }
+  }
+
+  async createUser(req, res, next) {
+    try {
+      const { name, email, password } = req.body;
+      const newUser = await this.userService.createUser(name, email, password);
+      res.status(201).json({ newUser });
+    } catch (error) {
+      next(error);
     }
   }
 }

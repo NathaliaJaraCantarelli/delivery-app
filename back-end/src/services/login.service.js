@@ -15,7 +15,12 @@ class LoginService {
     LoginValidations.validateUser(user);
     const { password } = user;
     const verifyPassword = await LoginValidations.validatePassword(passwordData, password);
-    if (verifyPassword) return generateToken(user);
+    if (verifyPassword) {
+     const token = generateToken(user);
+    const { dataValues } = user;
+     delete dataValues.password;
+     return { ...dataValues, token };
+    }
   }
 
   async getLogin(id, email, password, role) { // usada na validação do login

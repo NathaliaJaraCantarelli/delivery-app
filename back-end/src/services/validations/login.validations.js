@@ -16,6 +16,7 @@ class LoginValidations {
       if (md5Password !== password) {
       throw new UnauthorizedError(UNAUTHORIZED_MESSAGE);
     }
+    return true;
   }
 
   static validateId(user) {

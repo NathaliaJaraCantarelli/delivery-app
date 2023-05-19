@@ -31,7 +31,7 @@ class UserSequelizeRepository {
   async postLogin(email) {
     const user = await this.userModel.findOne({
       where: { email },
-      attributes: ['id', 'email', 'password', 'role'],
+      attributes: ['id', 'name', 'email', 'password', 'role'],
     });
     return user;
   }

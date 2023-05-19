@@ -14,7 +14,7 @@ function Login() {
   function verifyLogin() { /* faz a verificação dos inputs de email e password */
     const { email, password } = login;
     const MIN_PASSWORD = 5;
-    const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{3}$/g;
+    const regex = (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
     const verifyEmail = regex.test(email);
     const verifyPassword = password.length > MIN_PASSWORD;
     const btnState = verifyEmail && verifyPassword;
@@ -31,9 +31,10 @@ function Login() {
     event.preventDefault();
 
     try {
-      const { token } = await requestLogin('/login', {
+      const user = await requestLogin('/login', {
         email: email.value, password: password.value });
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', user.token);
+      localStorage.setItem('user', JSON.stringify(user));
       setIsLogged(true);
     } catch (error) {
       setFailedTryLogin(true);

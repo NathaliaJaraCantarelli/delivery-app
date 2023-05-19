@@ -23,4 +23,9 @@ export const requestRegister = async (endpoint, body) => {
   return data;
 };
 
+export const requestAllSales = async (endpoint, body) => {
+  const { data } = await api.post(endpoint, body);
+  return data;
+};
+
 export default api;

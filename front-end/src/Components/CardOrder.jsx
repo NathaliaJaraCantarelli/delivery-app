@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 function CardOrd({ data }) {
   const { id, status, saleDate, totalPrice } = data;
@@ -9,28 +10,30 @@ function CardOrd({ data }) {
   const PRICE = 'element-card-price-';
 
   return (
-    <div>
-      <p
-        data-testid={ `${ROUTE}__${ORDER}${id}` }
-      >
-        {id}
-      </p>
-      <p
-        data-testid={ `${ROUTE}__${STATUS}${id}` }
-      >
-        {status}
-      </p>
-      <p
-        data-testid={ `${ROUTE}__${DATE}${id}` }
-      >
-        {saleDate}
-      </p>
-      <p
-        data-testid={ `${ROUTE}__${PRICE}${id}` }
-      >
-        {totalPrice}
-      </p>
-    </div>
+    <Link to={ `/customer/orders/${id}` }>
+      <div>
+        <p
+          data-testid={ `${ROUTE}__${ORDER}${id}` }
+        >
+          {id}
+        </p>
+        <p
+          data-testid={ `${ROUTE}__${STATUS}${id}` }
+        >
+          {status}
+        </p>
+        <p
+          data-testid={ `${ROUTE}__${DATE}${id}` }
+        >
+          {saleDate}
+        </p>
+        <p
+          data-testid={ `${ROUTE}__${PRICE}${id}` }
+        >
+          {totalPrice}
+        </p>
+      </div>
+    </Link>
   );
 }
 
@@ -39,7 +42,7 @@ CardOrd.propTypes = {
     id: PropTypes.number,
     status: PropTypes.string,
     saleDate: PropTypes.string,
-    totalPrice: PropTypes.number,
+    totalPrice: PropTypes.string,
   }).isRequired,
 };
 

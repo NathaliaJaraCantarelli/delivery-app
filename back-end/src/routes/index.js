@@ -10,7 +10,7 @@ const router = express.Router();
 router.use('/login', loginRouter);
 router.use('/user', userRouter);
 router.use('/register', registerRouter);
-router.use('/salesById', salesRouter);
+router.use('/sales', salesRouter);
 router.use('/customer/products', saleProductRouter);
 
 module.exports = router;

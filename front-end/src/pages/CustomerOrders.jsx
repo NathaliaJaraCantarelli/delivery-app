@@ -11,13 +11,14 @@ function CustomerOrders() {
     const user = localStorage.getItem('user');
     if (user) {
       const userParsed = JSON.parse(user);
+      const { id } = userParsed;
       const callAllSales = async () => {
-        const allSales = await requestAllSales('/salesById', userParsed.id);
+        const allSales = await requestAllSales('/sales', { id });
         setOrders(allSales);
       };
       callAllSales();
     }
-  });
+  }, []);
 
   return (
     <>

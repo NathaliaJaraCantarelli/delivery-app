@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { reduceArr, setLocalStorage } from '../functions/localStorageFunc';
+import { requestAllSellers } from '../services/request';
 
 export default function CustomerCheckout() {
 //   const [cart, setCart] = useState([1]);
@@ -7,8 +8,17 @@ export default function CustomerCheckout() {
 
   const data = JSON.parse(localStorage.getItem('CustomerProducts'));
   const [cart, setCart] = useState(data.filter((product) => product.quantity > 0));
+  const [sellers, setSellers] = useState([]);
 
   // Algum useEffect para pegar o item do local storage  e fazer um reduce pra calcular o custo total
+
+  useEffect(() => {
+    const getSellers = async () => {
+      const allSellers = await requestAllSellers('/user/role', { role: 'seller' });
+      setSellers(allSellers);
+    };
+    getSellers();
+  }, []);
 
   const totalCost = reduceArr(cart);
 
@@ -86,7 +96,10 @@ export default function CustomerCheckout() {
           label="select-seller"
           id="select-seller"
           data-testid="customer_checkout__select-seller"
-        />
+        >
+          { sellers.map((seller, index) => (
+            <option key={ index } value={ seller.name }>{seller.name}</option>))}
+        </select>
         <input
           data-testid="customer_checkout__input-address"
           type="text"

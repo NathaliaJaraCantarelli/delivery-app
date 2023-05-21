@@ -12,6 +12,12 @@ class UserSequelizeRepository {
     return users;
   }
 
+  async getAllByRole(role) {
+    const users = await this.userModel.findAll({ where: { role } });
+    if (!users.length) throw new NotFoundError('No users found');
+    return users;
+  }
+
   async getById(id) {
     const user = await this.userModel.findByPk(id);
     if (!user) throw new NotFoundError('User not found');

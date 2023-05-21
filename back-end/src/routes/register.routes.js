@@ -9,6 +9,6 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-router.get('/', userController.createUser.bind(userController));
+router.post('/', userController.createUser.bind(userController));
 
 module.exports = router;

@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-function CardOrd({ data }) {
+function CardOrd({ data, route }) {
   const { id, status, saleDate, totalPrice } = data;
-  const ROUTE = 'customer_products';
+  const ROUTE = route;
   const ORDER = 'element-order-id-';
   const STATUS = 'element-delivery-status-';
   const DATE = 'element-order-date-';
   const PRICE = 'element-card-price-';
+  const LINK = route.replace('_', '/');
 
   return (
-    <Link to={ `/customer/orders/${id}` }>
+    <Link to={ `/${LINK}/${id}` }>
       <div>
         <p
           data-testid={ `${ROUTE}__${ORDER}${id}` }
@@ -38,6 +39,7 @@ function CardOrd({ data }) {
 }
 
 CardOrd.propTypes = {
+  route: PropTypes.string.isRequired,
   data: PropTypes.shape({
     id: PropTypes.number,
     status: PropTypes.string,

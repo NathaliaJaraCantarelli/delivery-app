@@ -11,6 +11,20 @@ class SaleService {
     if (!sale) throw new NotFoundError('Sales not found');
     return sale;
   }
+
+  async createSale({ userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate }) {
+    const sale = await this.saleModel.create({ 
+      userId,
+      sellerId,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      saleDate,
+      status: 'Pendente',
+     });
+    if (!sale) throw new NotFoundError('Sales not found');
+    return sale;
+  }
 }
 
 module.exports = SaleService;

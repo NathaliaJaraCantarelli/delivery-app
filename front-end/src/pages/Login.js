@@ -51,8 +51,8 @@ function Login() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
+    const token = localStorage.getItem('token');
+    if (token) {
       history.push('/customer/products');
     }
     setBtnDisabled(true);

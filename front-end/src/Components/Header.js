@@ -27,6 +27,7 @@ class Header extends React.Component {
 
   deleteLocalStorage() {
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   }
 
   render() {

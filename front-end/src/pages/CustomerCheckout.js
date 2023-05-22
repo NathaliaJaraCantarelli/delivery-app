@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { reduceArr, setLocalStorage } from '../functions/localStorageFunc';
 import { requestAllSales, requestAllSellers } from '../services/request';
-import convertDateFormat from '../functions/dateGenerate';
+// import convertDateFormat from '../functions/dateGenerate';
 
 export default function CustomerCheckout() {
 //   const [cart, setCart] = useState([1]);
@@ -50,7 +50,7 @@ export default function CustomerCheckout() {
       totalPrice: totalCost,
       deliveryAddress: address,
       deliveryNumber: Number(number),
-      // saleDate: new Date(),
+      saleDate: new Date(),
     };
     const { id: saleID } = await requestAllSales('/sales/newsale', newSale);
     history.push(`/customer/orders/${saleID}`);

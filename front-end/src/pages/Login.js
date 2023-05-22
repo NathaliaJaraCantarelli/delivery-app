@@ -51,6 +51,10 @@ function Login() {
   }
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      history.push('/customer/products');
+    }
     setBtnDisabled(true);
     setFailedTryLogin(false);
     verifyLogin();

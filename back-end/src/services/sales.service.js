@@ -12,14 +12,14 @@ class SaleService {
     return sale;
   }
 
-  async createSale({ userId, sellerId, totalPrice, deliveryAddress, deliveryNumber }) {
+  async createSale({ userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate }) {
     const sale = await this.saleModel.create({ 
       userId,
       sellerId,
       totalPrice,
       deliveryAddress,
       deliveryNumber,
-      saleDate: new Date(),
+      saleDate,
       status: 'Pendente',
      });
     if (!sale) throw new NotFoundError('Sales not found');

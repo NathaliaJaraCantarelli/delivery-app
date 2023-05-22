@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import formatDate from '../functions/dateGenerate';
 
 function CardOrd({ data, route }) {
   const { id, status, saleDate, totalPrice } = data;
@@ -26,7 +27,7 @@ function CardOrd({ data, route }) {
         <p
           data-testid={ `${ROUTE}__${DATE}${id}` }
         >
-          {saleDate}
+          {formatDate(saleDate)}
         </p>
         <p
           data-testid={ `${ROUTE}__${PRICE}${id}` }

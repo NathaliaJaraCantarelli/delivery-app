@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { reduceArr, setLocalStorage } from '../functions/localStorageFunc';
 import { requestAllSales, requestAllSellers } from '../services/request';
+import convertDateFormat from '../functions/dateGenerate';
 
 export default function CustomerCheckout() {
 //   const [cart, setCart] = useState([1]);
@@ -48,11 +49,10 @@ export default function CustomerCheckout() {
       sellerId: sellerID,
       totalPrice: totalCost,
       deliveryAddress: address,
-      deliveryNumber: number,
-      saleDate: new Date(),
+      deliveryNumber: Number(number),
+      // saleDate: new Date(),
     };
     const { id: saleID } = await requestAllSales('/sales/newsale', newSale);
-    // console.log(saleID);
     history.push(`/customer/orders/${saleID}`);
   };
 

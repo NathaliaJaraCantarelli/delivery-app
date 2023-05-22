@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { requestLogin } from '../services/request';
+import { requestLogin, setToken } from '../services/request';
 import '../styles/login.css';
 import logoImg from '../images/logo.jpeg';
 
@@ -34,6 +34,7 @@ function Login() {
       const user = await requestLogin('/login', {
         email: email.value, password: password.value });
       localStorage.setItem('token', user.token);
+      setToken(user.token);
       localStorage.setItem('user', JSON.stringify(user));
       setIsLogged(true);
     } catch (error) {

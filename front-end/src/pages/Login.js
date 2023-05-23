@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { requestLogin } from '../services/request';
+import { requestLogin, setToken } from '../services/request';
 import '../styles/login.css';
 import logoImg from '../images/logo.jpeg';
 
@@ -14,7 +14,7 @@ function Login() {
   function verifyLogin() { /* faz a verificação dos inputs de email e password */
     const { email, password } = login;
     const MIN_PASSWORD = 5;
-    const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{3}$/g;
+    const regex = (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/);
     const verifyEmail = regex.test(email);
     const verifyPassword = password.length > MIN_PASSWORD;
     const btnState = verifyEmail && verifyPassword;
@@ -31,9 +31,11 @@ function Login() {
     event.preventDefault();
 
     try {
-      const { token } = await requestLogin('/login', {
+      const user = await requestLogin('/login', {
         email: email.value, password: password.value });
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', user.token);
+      setToken(user.token);
+      localStorage.setItem('user', JSON.stringify(user));
       setIsLogged(true);
     } catch (error) {
       setFailedTryLogin(true);
@@ -49,12 +51,21 @@ function Login() {
   }
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLogged(true);
+    }
     setBtnDisabled(true);
     setFailedTryLogin(false);
     verifyLogin();
   }, [login]);
 
-  if (isLogged) return <Redirect to="/customer/products" />;
+  if (isLogged) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    if (user.role === 'customer') return <Redirect to="/customer/products" />;
+    return <Redirect to="/seller/orders" />;
+  }
 
   return (
     <div className="container_login">

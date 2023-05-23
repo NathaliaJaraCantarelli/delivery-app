@@ -8,8 +8,8 @@ class LoginController {
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const token = await this.loginService.postLogin(email, password);
-      res.status(200).json({ token });
+      const user = await this.loginService.postLogin(email, password);
+      res.status(200).json(user);
     } catch (error) {
       next(error);
     }

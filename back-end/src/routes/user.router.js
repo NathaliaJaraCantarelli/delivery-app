@@ -11,5 +11,8 @@ const userController = new UserController(userService);
 
 router
   .get('/', userController.getUser.bind(userController));
+  
+router
+  .post('/role', userController.getUserByRole.bind(userController));
 
 module.exports = router;

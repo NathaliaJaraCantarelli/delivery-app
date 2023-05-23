@@ -12,13 +12,13 @@ const loginService = new LoginService(
   new UserSequelizeRepository(),
 );
 
-const validateAuth = () => async (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) {
+const validateAuth = async (req, res, next) => {
+  const { authorization } = req.headers;
+  if (!authorization) {
     return res.status(401).json({ message: 'Token not found' });
   }
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(authorization, JWT_SECRET);
     const { userId, userEmail, userRole, userPassword } = decoded.data;
     const user = await loginService.getLogin(userId, userEmail, userPassword, userRole);
     if (!user) {

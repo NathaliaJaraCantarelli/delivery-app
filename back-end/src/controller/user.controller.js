@@ -14,6 +14,16 @@ class UserController {
     }
   }
 
+  async getUserByRole(req, res, next) {
+    try {
+      const { role } = req.body;
+      const users = await this.userService.getUserByRole(role);
+      return res.status(200).json(users);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async createUser(req, res, next) {
     try {
       const { name, email, password } = req.body;

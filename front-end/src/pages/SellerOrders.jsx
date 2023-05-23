@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Header from '../Components/Header';
-import CardOrd from '../Components/CardOrder';
+// import Header from '../Components/Header';
+import CardOrder from '../Components/CardOrder';
 import { requestAllSales } from '../services/request';
 
-function CustomerOrders() {
+function SellerOrders() {
   const [orders, setOrders] = useState([]);
   // const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,7 @@ function CustomerOrders() {
       const userParsed = JSON.parse(user);
       const { id } = userParsed;
       const callAllSales = async () => {
-        const allSales = await requestAllSales('/sales', { id });
+        const allSales = await requestAllSales('/sales/seller', { id });
         setOrders(allSales);
       };
       callAllSales();
@@ -22,15 +22,14 @@ function CustomerOrders() {
 
   return (
     <>
-      <Header />
       <h1>Pedidos</h1>
       {orders.map((elem, ind) => (
-        <CardOrd key={ ind } data={ elem } route="customer_orders" />))}
+        <CardOrder key={ ind } data={ elem } route="seller_orders" />))}
     </>
   );
 }
 
-export default CustomerOrders;
+export default SellerOrders;
 
 // const arrayOrders = [
 //   {

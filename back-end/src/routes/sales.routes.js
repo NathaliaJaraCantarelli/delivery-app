@@ -9,6 +9,7 @@ const service = new SaleService();
 const controller = new SalesController(service);
 
 router.post('/', controller.getAllSales.bind(controller));
+router.post('/seller', controller.getSalesSellers.bind(controller));
 router.post('/newsale', validateAuth, controller.createSale.bind(controller));
 
 module.exports = router;

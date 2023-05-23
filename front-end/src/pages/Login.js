@@ -53,14 +53,19 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      history.push('/customer/products');
+      setIsLogged(true);
     }
     setBtnDisabled(true);
     setFailedTryLogin(false);
     verifyLogin();
   }, [login]);
 
-  if (isLogged) return <Redirect to="/customer/products" />;
+  if (isLogged) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    if (user.role === 'customer') return <Redirect to="/customer/products" />;
+    return <Redirect to="/seller/orders" />;
+  }
 
   return (
     <div className="container_login">

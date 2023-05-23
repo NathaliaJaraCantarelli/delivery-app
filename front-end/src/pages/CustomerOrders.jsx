@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../Components/Header';
-import CardOrd from '../Components/CardOrder';
+import CardOrder from '../Components/CardOrder';
 import { requestAllSales } from '../services/request';
 
 function CustomerOrders() {
@@ -25,7 +25,7 @@ function CustomerOrders() {
       <Header />
       <h1>Pedidos</h1>
       {orders.map((elem, ind) => (
-        <CardOrd key={ ind } data={ elem } route="customer_orders" />))}
+        <CardOrder key={ ind } data={ elem } route="customer_orders" />))}
     </>
   );
 }

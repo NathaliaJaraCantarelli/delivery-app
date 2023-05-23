@@ -1,4 +1,5 @@
 const { SaleService } = require('../services');
+// const { createSaleProduct } = require('../services/salesProducts.service');
 
 class SalesController {
   constructor() {
@@ -27,14 +28,30 @@ class SalesController {
 
   async createSale(req, res, next) {
     try {
-      // const { userId, sellerId, totalPrice, deliveryAdress, deliveryNumber, saleDate } = req.body;
+      const { products } = req.body;
       const newSale = await this.saleService.createSale(req.body);
+      const allProducts = products.map((product) => this
+        .saleService.createSaleProduct(product, newSale.id));
+      Promise.all(allProducts);
+
+      // await this.saleService.createSaleProduct(products, newSale.id);
       // const sales = await this.saleService.getAllSales(3);
       return res.status(201).json(newSale);
     } catch (error) {
       next(error);
     }
   }
+
+  // async createSaleProduct(req, res, next) {
+  //   try {
+  //     const { products } = req.body;
+  //     // const newSale = await this.saleService.createSale(req.body);
+  //     // const sales = await this.saleService.getAllSales(3);
+  //     return res.status(201).json({ message: 'foi' });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 }
 
 module.exports = SalesController;

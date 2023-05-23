@@ -42,8 +42,9 @@ export default function CustomerCheckout() {
 
   const createSale = async () => {
     const { id } = JSON.parse(localStorage.getItem('user'));
-    // console.log(id);
-    // console.log(sellerID);
+    const products = cart
+      .map((product) => ({ id: product.id, quantity: product.quantity }));
+    console.log(products);
     const newSale = {
       userId: id,
       sellerId: sellerID,
@@ -51,12 +52,12 @@ export default function CustomerCheckout() {
       deliveryAddress: address,
       deliveryNumber: Number(number),
       saleDate: new Date(),
+      products,
     };
     const { id: saleID } = await requestAllSales('/sales/newsale', newSale);
     history.push(`/customer/orders/${saleID}`);
   };
 
-  // remover item com target e recalcular o preço total
   return (
     <div>
       { totalCost === 0 ? <p>carrinho vazio</p> : cart.map((product, index) => (

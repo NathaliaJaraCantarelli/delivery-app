@@ -1,11 +1,12 @@
 const NotFoundError = require('../middlewares/errors/notFound.error');
-const { Sale } = require('../database/models');
+const { Sale, SaleProduct } = require('../database/models');
 
 const SALENOTFOUND = 'Sales not found';
 
 class SaleService {
   constructor() {
     this.saleModel = Sale;
+    this.saleProductModel = SaleProduct;
   }
 
   async getAllSales(userId) {
@@ -32,6 +33,14 @@ class SaleService {
      });
     if (!sale) throw new NotFoundError(SALENOTFOUND);
     return sale;
+  }
+
+  async createSaleProduct(product, saleId) {
+    await this.saleProductModel.create({
+      productId: product.id,
+      quantity: product.quantity,
+      saleId,
+    });
   }
 }
 

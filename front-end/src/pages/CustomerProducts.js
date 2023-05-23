@@ -16,7 +16,6 @@ class CustomerProducts extends React.Component {
     this.state = {
       products: [],
       totalValue: 0,
-      buttonCart: true,
     };
   }
 
@@ -27,8 +26,6 @@ class CustomerProducts extends React.Component {
       const cart = carShop.filter((product) => product.quantity > 0);
       const totalCost = reduceArr(cart);
       this.setState({ totalValue: totalCost });
-      if (totalCost === 0) this.setState({ buttonCart: true });
-      else this.setState({ buttonCart: false });
     } else {
       const data = await requestData('/customer/products');
       const dataWithQuantity = data.map((dado) => {
@@ -41,18 +38,11 @@ class CustomerProducts extends React.Component {
   }
 
   totalValueFunc = async () => {
-    const { totalValue } = this.state;
     const data = JSON.parse(localStorage.getItem('CustomerProducts'));
     if (data) {
       const cart = data.filter((product) => product.quantity > 0);
       const totalCost = reduceArr(cart);
-      this.setState(
-        { totalValue: totalCost },
-        () => {
-          if (totalValue === 0) this.setState({ buttonCart: true });
-          else this.setState({ buttonCart: false });
-        },
-      );
+      this.setState({ totalValue: totalCost });
     }
   };
 
@@ -67,7 +57,7 @@ class CustomerProducts extends React.Component {
   };
 
   render() {
-    const { totalValue, products, buttonCart } = this.state;
+    const { totalValue, products } = this.state;
     return (
       <div className="CustomerProducts">
         <Header />
@@ -88,7 +78,7 @@ class CustomerProducts extends React.Component {
         <Link to="/customer/checkout">
           <button
             type="button"
-            disabled={ buttonCart }
+            disabled={ Number(totalValue) === 0 }
             data-testid={ `${ROUTE}__${CART}` }
           >
             Ver carrinho: R$
@@ -103,45 +93,3 @@ class CustomerProducts extends React.Component {
 }
 
 export default CustomerProducts;
-
-// function CustomerProducts() {
-//   const { products, totalValue, setTotalValue } = useContext(Context);
-
-//   addValue = async (value) => {
-//     const nValue = parseFloat(value);
-//     setTotalValue(totalValue + nValue);
-//   };
-
-//   rmValue = (value) => {
-//     const nValue = parseFloat(value);
-//     setTotalValue(totalValue - nValue);
-//   };
-
-//   return (
-//     <div className="CustomerProducts">
-//       <Header />
-//       <ul className="products">
-//         { products.map((card, index) => (
-//           <CardProduct
-//             key={ index }
-//             i={ card.id }
-//             name={ card.name }
-//             price={ card.price }
-//             urlImage={ card.urlImage }
-//           />
-//         ))}
-//       </ul>
-//       <Link to="/customer/checkout">
-//         <button
-//           type="button"
-//           data-testid={ `${ROUTE}__${CART}` }
-//         >
-//           Ver carrinho: R$
-//           <p data-testid={ `${ROUTE}__${VALUE}` }>{ totalValue.toFixed(2) }</p>
-//         </button>
-//       </Link>
-//     </div>
-//   );
-// }
-
-// export default CustomerProducts;

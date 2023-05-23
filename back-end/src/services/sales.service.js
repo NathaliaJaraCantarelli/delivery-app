@@ -22,8 +22,9 @@ class SaleService {
   }
 
   async getSalesById(id) {
-    const sale = await this.saleModel.findByPk(id);
+    const sale = await this.saleModel.findAll({ where: { id } });
     if (!sale) throw new NotFoundError(SALENOTFOUND);
+    return sale;
   }
 
   async createSale({ userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate }) {

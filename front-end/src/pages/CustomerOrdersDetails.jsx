@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CardOrder from '../Components/CardOrder';
 import Header from '../Components/Header';
+import { requestData } from '../services/request';
 
 function CustomerOrdersDetails() {
   const [orders, setOrders] = useState([]);
@@ -21,7 +23,7 @@ function CustomerOrdersDetails() {
 
   useEffect(() => {
     const getOrder = async () => {
-      const data = await requestData(`/sales/${id}`);
+      const data = await requestData(`/sales/seller/${id}`);
       setOrders(data);
     };
     getOrder();
@@ -30,7 +32,7 @@ function CustomerOrdersDetails() {
   return (
     <>
       <Header />
-      <h1>Pedidos</h1>
+      <h1>Detalhes do Pedidos</h1>
       {orders.map((elem, ind) => (
         <CardOrder key={ ind } data={ elem } route="customer_order_details" />))}
     </>

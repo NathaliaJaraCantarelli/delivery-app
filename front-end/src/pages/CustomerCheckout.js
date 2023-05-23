@@ -24,7 +24,6 @@ export default function CustomerCheckout() {
       setSellers(allSellers);
     };
     getSellers();
-    console.log(sellers);
     if (sellers.length > 0) setSellerID(sellers[0].id);
   }, [sellers]);
 
@@ -55,62 +54,79 @@ export default function CustomerCheckout() {
       products,
     };
     const { id: saleID } = await requestAllSales('/sales/newsale', newSale);
+    localStorage.removeItem('CustomerProducts');
     history.push(`/customer/orders/${saleID}`);
   };
 
   return (
     <div>
-      { totalCost === 0 ? <p>carrinho vazio</p> : cart.map((product, index) => (
-        <div
-          key={ product.id }
-        >
-          <div
-            data-testid={
-              `customer_checkout__element-order-table-item-number-${index}`
-            }
-          >
-            { index + 1 }
-          </div>
-          <div
-            data-testid={
-              `customer_checkout__element-order-table-name-${index}`
-            }
-          >
-            { product.name }
-          </div>
-          <div
-            data-testid={
-              `customer_checkout__element-order-table-quantity-${index}`
-            }
-          >
-            { product.quantity }
-          </div>
-          <div
-            data-testid={
-              `customer_checkout__element-order-table-unit-price-${index}`
-            }
-          >
-            { product.price.toString().replace('.', ',') }
-          </div>
-          <div
-            data-testid={
-              `customer_checkout__element-order-table-sub-total-${index}`
-            }
-          >
-            { ((parseFloat(product.quantity) * parseFloat(product.price)).toFixed(2))
-              .toString().replace('.', ',') }
-          </div>
-          <button
-            data-testid={
-              `customer_checkout__element-order-table-remove-${index}`
-            }
-            type="button"
-            onClick={ () => removeItem(product.id) }
-          >
-            Remover
-          </button>
-        </div>
-      ))}
+      { totalCost === 0 ? <p>Carrinho vazio</p> : (
+        <table>
+          <thead>
+            <tr>
+              <td>Item</td>
+              <td>Descrição</td>
+              <td>Quantidade</td>
+              <td>Valor Unitário</td>
+              <td>Sub-total</td>
+              <td>Remover Item</td>
+            </tr>
+          </thead>
+          { cart.map((product, index) => (
+            <tbody key={ product.id }>
+              <tr>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-item-number-${index}`
+                  }
+                >
+                  { index + 1 }
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-name-${index}`
+                  }
+                >
+                  { product.name }
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-quantity-${index}`
+                  }
+                >
+                  { product.quantity }
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-unit-price-${index}`
+                  }
+                >
+                  { product.price.toString().replace('.', ',') }
+                </td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-sub-total-${index}`
+                  }
+                >
+                  { ((parseFloat(product.quantity) * parseFloat(product.price))
+                    .toFixed(2)).toString().replace('.', ',') }
+                </td>
+                <td>
+                  <button
+                    data-testid={
+                      `customer_checkout__element-order-table-remove-${index}`
+                    }
+                    type="button"
+                    onClick={ () => removeItem(product.id) }
+                  >
+                    Remover
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </table>)}
+      <p>Total: R$</p>
       <div
         data-testid="customer_checkout__element-order-total-price"
       >

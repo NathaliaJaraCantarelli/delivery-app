@@ -32,7 +32,7 @@ function CardOrd({ data, route }) {
         <p
           data-testid={ `${ROUTE}__${PRICE}${id}` }
         >
-          {totalPrice}
+          {totalPrice.toString().replace('.', ',')}
         </p>
       </div>
     </Link>

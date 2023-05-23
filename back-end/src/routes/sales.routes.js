@@ -10,6 +10,7 @@ const controller = new SalesController(service);
 
 router.post('/', controller.getAllSales.bind(controller));
 router.post('/seller', controller.getSalesSellers.bind(controller));
+router.get('/seller/:id', controller.getSalesById.bind(controller));
 router.post('/newsale', controller.createSale.bind(controller));
 // router.post('/teste', controller.createSaleProduct.bind(controller));
 

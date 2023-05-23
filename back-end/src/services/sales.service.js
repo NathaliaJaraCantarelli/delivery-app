@@ -21,6 +21,11 @@ class SaleService {
     return sale;
   }
 
+  async getSalesById(id) {
+    const sale = await this.saleModel.findByPk(id);
+    if (!sale) throw new NotFoundError(SALENOTFOUND);
+  }
+
   async createSale({ userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate }) {
     const sale = await this.saleModel.create({ 
       userId,

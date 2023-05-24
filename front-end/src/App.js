@@ -10,6 +10,7 @@ import './styles/App.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import SellerOrders from './pages/SellerOrders';
+import SellerOrderDetails from './pages/SellerOrdersDetails';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/customer/checkout" component={ CustomerCheckout } />
       <Route path="/customer/orders/:id" component={ CustomerOrdersDetails } />
       <Route path="/customer/orders" component={ CustomerOrders } />
+      <Route path="/seller/orders/:id" component={ SellerOrderDetails } />
       <Route path="/seller/orders" component={ SellerOrders } />
     </Switch>
   );

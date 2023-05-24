@@ -44,24 +44,23 @@ class SalesController {
         .saleService.createSaleProduct(product, newSale.id));
       Promise.all(allProducts);
 
-      // await this.saleService.createSaleProduct(products, newSale.id);
-      // const sales = await this.saleService.getAllSales(3);
       return res.status(201).json(newSale);
     } catch (error) {
       next(error);
     }
   }
 
-  // async createSaleProduct(req, res, next) {
-  //   try {
-  //     const { products } = req.body;
-  //     // const newSale = await this.saleService.createSale(req.body);
-  //     // const sales = await this.saleService.getAllSales(3);
-  //     return res.status(201).json({ message: 'foi' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+  async updateStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      await this.saleService.updateStatus(status, id);
+      const sales = await this.saleService.getSalesByIdWithJoin(id);
+      return res.status(201).json(sales);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = SalesController;

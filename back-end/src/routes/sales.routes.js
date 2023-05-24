@@ -12,6 +12,7 @@ router.post('/', controller.getAllSales.bind(controller));
 router.post('/seller', controller.getSalesSellers.bind(controller));
 router.get('/seller/:id', controller.getSalesByIdWithJoin.bind(controller));
 router.post('/newsale', controller.createSale.bind(controller));
+router.post('/status/:id', controller.updateStatus.bind(controller));
 // router.post('/teste', controller.createSaleProduct.bind(controller));
 
 module.exports = router;

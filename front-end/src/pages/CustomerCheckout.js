@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { reduceArr, setLocalStorage } from '../functions/localStorageFunc';
 import { requestAllSales, requestAllSellers } from '../services/request';
-// import convertDateFormat from '../functions/dateGenerate';
+import CardOrderDetails from '../Components/CardOrderDetails';
+
+const ROUTE = 'customer_checkout';
 
 export default function CustomerCheckout() {
-//   const [cart, setCart] = useState([1]);
-//   const [totalCost, setTotalCost] = useState(0.00);
   const history = useHistory();
   const data = JSON.parse(localStorage.getItem('CustomerProducts'));
   const [cart, setCart] = useState(data.filter((product) => product.quantity > 0));
@@ -14,8 +14,6 @@ export default function CustomerCheckout() {
   const [sellerID, setSellerID] = useState(sellers);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState(0);
-
-  // Algum useEffect para pegar o item do local storage  e fazer um reduce pra calcular o custo total
 
   useEffect(() => {
     const getSellers = async () => {
@@ -75,42 +73,12 @@ export default function CustomerCheckout() {
           { cart.map((product, index) => (
             <tbody key={ product.id }>
               <tr>
-                <td
-                  data-testid={
-                    `customer_checkout__element-order-table-item-number-${index}`
-                  }
-                >
-                  { index + 1 }
-                </td>
-                <td
-                  data-testid={
-                    `customer_checkout__element-order-table-name-${index}`
-                  }
-                >
-                  { product.name }
-                </td>
-                <td
-                  data-testid={
-                    `customer_checkout__element-order-table-quantity-${index}`
-                  }
-                >
-                  { product.quantity }
-                </td>
-                <td
-                  data-testid={
-                    `customer_checkout__element-order-table-unit-price-${index}`
-                  }
-                >
-                  { product.price.toString().replace('.', ',') }
-                </td>
-                <td
-                  data-testid={
-                    `customer_checkout__element-order-table-sub-total-${index}`
-                  }
-                >
-                  { ((parseFloat(product.quantity) * parseFloat(product.price))
-                    .toFixed(2)).toString().replace('.', ',') }
-                </td>
+                <CardOrderDetails
+                  index={ index }
+                  product={ product }
+                  quantity={ product.quantity }
+                  route={ ROUTE }
+                />
                 <td>
                   <button
                     data-testid={

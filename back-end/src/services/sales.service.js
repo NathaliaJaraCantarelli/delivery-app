@@ -31,45 +31,18 @@ class SaleService {
 
   async getSalesByIdWithJoin(id) {
     const sale = await this.saleModel.findOne({
-      // attributes: ['name', 'price'],
-      // include: [
-      //   {
-      //     model: 'SaleProduct',
-      //     attributes: ['quantity'],
-      //     where: { saleId: id },
-      //   },
-      // ],
-
       where: { id },
       include: [
-        { model: this.productModel,
+        { model: Product,
           as: 'products',
           attributes: ['name', 'price'],
           through: { attributes: ['quantity'] } },
-        { model: this.userModel, as: 'seller', attributes: ['name'] },
+        { model: User, as: 'seller', attributes: ['name'] },
       ],
     });
     if (!sale) throw new NotFoundError(SALENOTFOUND);
     return sale;
   }
-
-  // const getOrderDetails = async (saleId) => {
-  //   const order = await Sale.findOne(
-  //     {
-  //     where: { id: saleId },
-  //     include: [
-  //       { model: Product,
-  //         as: 'products',
-  //         attributes: ['name', 'price'],
-  //         through: { attributes: ['quantity'] } },
-  //       { model: User, as: 'seller', attributes: ['name'] },
-  //     ],
-  //     },
-  //   );
-  
-  //   if (!order) return { type: 404, message: 'Pedido não encontrado' };
-  //   return { type: null, message: orderObject(order) };
-  // };
 
   async createSale({ userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate }) {
     const sale = await this.saleModel.create({ 

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-// import Header from '../Components/Header';
+import Header from '../Components/Header';
 import CardOrder from '../Components/CardOrder';
 import { requestAllSales } from '../services/request';
+
+const ROUTE = 'seller_orders';
 
 function SellerOrders() {
   const [orders, setOrders] = useState([]);
@@ -22,9 +24,10 @@ function SellerOrders() {
 
   return (
     <>
+      <Header route={ ROUTE } />
       <h1>Pedidos</h1>
       {orders.map((elem, ind) => (
-        <CardOrder key={ ind } data={ elem } route="seller_orders" />))}
+        <CardOrder key={ ind } data={ elem } route={ ROUTE } />))}
     </>
   );
 }

@@ -3,6 +3,8 @@ import Header from '../Components/Header';
 import CardOrder from '../Components/CardOrder';
 import { requestAllSales } from '../services/request';
 
+const ROUTE = 'customer_orders';
+
 function CustomerOrders() {
   const [orders, setOrders] = useState([]);
   // const [loading, setLoading] = useState(true);
@@ -22,10 +24,10 @@ function CustomerOrders() {
 
   return (
     <>
-      <Header />
+      <Header route={ ROUTE } />
       <h1>Pedidos</h1>
       {orders.map((elem, ind) => (
-        <CardOrder key={ ind } data={ elem } route="customer_orders" />))}
+        <CardOrder key={ ind } data={ elem } route={ ROUTE } />))}
     </>
   );
 }

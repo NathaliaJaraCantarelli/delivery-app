@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import CardOrder from '../Components/CardOrder';
 import Header from '../Components/Header';
-import { requestData } from '../services/request';
+import { requestData, requestAllSales } from '../services/request';
 import CardOrderDetails from '../Components/CardOrderDetails';
 import formatDate from '../functions/dateGenerate';
 
@@ -14,20 +14,26 @@ function CustomerOrdersDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
 
+  const getOrder = async () => {
+    const data = await requestData(`/sales/seller/${id}`);
+    setOrders(data.products);
+    setDataProducts(data);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const getOrder = async () => {
-      const data = await requestData(`/sales/seller/${id}`);
-      setOrders(data.products);
-      setDataProducts(data);
-      setIsLoading(false);
-      // console.log(data);
-    };
     getOrder();
-  }, [id]);
+  }, []);
+
+  const statuCheck = async (newStatus) => {
+    const status = newStatus;
+    await requestAllSales(`/sales/status/${id}`, { status });
+    getOrder();
+  };
 
   return (
     <>
-      <Header />
+      <Header route={ ROUTE } />
       <h1>Detalhes do Pedidos</h1>
       <span
         data-testid={
@@ -61,7 +67,8 @@ function CustomerOrdersDetails() {
           </span>
           <button
             type="button"
-            disabled
+            disabled={ dataProducts.status !== 'Em Trânsito' }
+            onClick={ () => statuCheck('Entregue') }
             data-testid={
               `${ROUTE}__button-delivery-check`
             }

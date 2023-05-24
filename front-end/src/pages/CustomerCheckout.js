@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { reduceArr, setLocalStorage } from '../functions/localStorageFunc';
 import { requestAllSales, requestAllSellers } from '../services/request';
 import CardOrderDetails from '../Components/CardOrderDetails';
+import Header from '../Components/Header';
 
 const ROUTE = 'customer_checkout';
 
@@ -58,6 +59,7 @@ export default function CustomerCheckout() {
 
   return (
     <div>
+      <Header route={ ROUTE } />
       { totalCost === 0 ? <p>Carrinho vazio</p> : (
         <table>
           <thead>

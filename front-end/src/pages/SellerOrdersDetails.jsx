@@ -19,7 +19,6 @@ function SellerOrdersDetails() {
     setOrders(data.products);
     setDataProducts(data);
     setIsLoading(false);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -34,7 +33,7 @@ function SellerOrdersDetails() {
 
   return (
     <>
-      <Header />
+      <Header route={ ROUTE } />
       <h1>Detalhes do Pedidos</h1>
       <span
         data-testid={

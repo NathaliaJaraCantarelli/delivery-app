@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
@@ -12,10 +13,14 @@ class Header extends React.Component {
     super();
     this.state = {
       name: '',
+      router: '',
     };
   }
 
   componentDidMount() {
+    const { route } = this.props;
+    const actualRooute = route.split('_');
+    this.setState({ router: actualRooute[0] });
     const user = localStorage.getItem('user');
     if (user) {
       const userParsed = JSON.parse(user);
@@ -31,13 +36,17 @@ class Header extends React.Component {
   }
 
   render() {
-    const { name } = this.state;
+    const { name, router } = this.state;
     return (
       <div className="Header">
-        <Link to="/customer/products">
-          <button type="button" data-testid={ `${ROUTE}__${PRODUCTS}` }>PRODUTOS</button>
-        </Link>
-        <Link to="/customer/orders">
+        { router === 'customer' && (
+          <Link to="/customer/products">
+            <button type="button" data-testid={ `${ROUTE}__${PRODUCTS}` }>
+              PRODUTOS
+            </button>
+          </Link>
+        )}
+        <Link to={ `/${router}/orders` }>
           <button type="button" data-testid={ `${ROUTE}__${ORDERS}` }>
             MEUS PEDIDOS
           </button>
@@ -58,5 +67,9 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {
+  route: PropTypes.string.isRequired,
+};
 
 export default Header;

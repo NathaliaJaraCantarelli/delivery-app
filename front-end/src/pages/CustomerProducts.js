@@ -60,7 +60,7 @@ class CustomerProducts extends React.Component {
     const { totalValue, products } = this.state;
     return (
       <div className="CustomerProducts">
-        <Header />
+        <Header route={ ROUTE } />
         <ul className="products">
           { products.map((card, index) => (
             <CardProduct

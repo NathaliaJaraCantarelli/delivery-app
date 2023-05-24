@@ -26,10 +26,10 @@ class SalesController {
     }
   }
 
-  async getSalesById(req, res, next) {
+  async getSalesByIdWithJoin(req, res, next) {
     try {
       const { id } = req.params;
-      const sales = await this.saleService.getSalesById(id);
+      const sales = await this.saleService.getSalesByIdWithJoin(id);
       return res.status(200).json(sales);
     } catch (error) {
       next(error);

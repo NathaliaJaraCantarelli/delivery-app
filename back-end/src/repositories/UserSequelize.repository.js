@@ -7,7 +7,7 @@ class UserSequelizeRepository {
   }
 
   async getAll() {
-    const users = await this.userModel.findAll();
+    const users = await this.userModel.findAll({ attributes: { exclude: ['password'] } });
     if (!users.length) throw new NotFoundError('No users found');
     return users;
   }
@@ -58,6 +58,12 @@ class UserSequelizeRepository {
       role,
     });
     return user;
+  }
+
+  async removeUser(id) {
+    await this.userModel.destroy({
+      where: { id },
+    });
   }
 }
 

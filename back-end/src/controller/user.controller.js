@@ -27,8 +27,20 @@ class UserController {
   async createUser(req, res, next) {
     try {
       const { name, email, password } = req.body;
-      const newUser = await this.userService.createUser(name, email, password);
+      let { role } = req.body;
+      if (!role) role = 'customer';
+      const newUser = await this.userService.createUser(name, email, password, role);
       res.status(201).json({ newUser });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeUser(req, res, next) {
+    try {
+      const { id } = req.body;
+      await this.userService.removeUser(id);
+      res.status(201).json();
     } catch (error) {
       next(error);
     }

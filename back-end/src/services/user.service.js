@@ -27,7 +27,7 @@ class UserService {
     return user;
   }
 
-  async createUser(name, email, password, role = 'customer') {
+  async createUser(name, email, password, role) {
     UserValidations.validateEmail(email);
     UserValidations.validatePassword(password);
     UserValidations.validateUsername(name);
@@ -40,6 +40,10 @@ class UserService {
     const md5Password = crypto.createHash('md5').update(password).digest('hex');
     const user = await this.userRepository.createUser(name, email, md5Password, role);
     return user;
+  }
+
+  async removeUser(id) {
+    await this.userRepository.removeUser(id);
   }
 }
 

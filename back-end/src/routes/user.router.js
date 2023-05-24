@@ -15,4 +15,7 @@ router
 router
   .post('/role', userController.getUserByRole.bind(userController));
 
+router
+  .post('/remove', userController.removeUser.bind(userController));
+
 module.exports = router;

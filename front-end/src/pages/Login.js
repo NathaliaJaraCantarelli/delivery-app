@@ -63,8 +63,9 @@ function Login() {
   if (isLogged) {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
-    if (user.role === 'customer') return <Redirect to="/customer/products" />;
-    return <Redirect to="/seller/orders" />;
+    if (user.role === 'seller') return <Redirect to="/seller/orders" />;
+    if (user.role === 'administrator') return <Redirect to="/admin/manage" />;
+    return <Redirect to="/customer/products" />;
   }
 
   return (

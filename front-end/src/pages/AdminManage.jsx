@@ -18,7 +18,9 @@ const ERROR = 'element-invalid-register';
 export default function AdminManage() {
   const [users, setUsers] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [login, setLogin] = useState({ email: '', password: '', name: '', role: '' });
+  const [login, setLogin] = useState({
+    email: '', password: '', name: '', role: 'customer' });
+  const [conflict, setConflict] = useState(false);
 
   useEffect(() => {
     const allUsers = async () => {
@@ -37,15 +39,20 @@ export default function AdminManage() {
   const verifyEmail = re.test(login.email);
   const verify = (verifyName && verifyPassword && verifyEmail);
 
-  const sendInfo = async () => {
+  const sendInfo = async (e) => {
+    e.preventDefault();
     const { name, email, password, role } = login;
     try {
-      await requestRegister('/register', { name, email, password, role });
-      setLogin({ email: '', password: '', name: '', role: '' });
-      const allUsersReq = await requestData('/user');
-      setUsers(allUsersReq.users);
+      console.log({ name, email, password, role });
+      await requestRegister(
+        '/register',
+        { name, email, password, role },
+      );
+      setLogin({ email: '', password: '', name: '', role: 'customer' });
+      setUsers([...users, { email, name, password, role }]);
+      setConflict(false);
     } catch (error) {
-      throw new Error(error);
+      setConflict(true);
     }
   };
 
@@ -59,8 +66,10 @@ export default function AdminManage() {
     if (campInput) setErrorMessage('Preencha todos os campos corretamente');
   };
 
-  const removeUser = (id) => {
-    console.log(id);
+  const removeUser = async (id, email) => {
+    await requestRegister('/user/remove', { id });
+    const remove = users.filter((user) => user.email !== email);
+    setUsers(remove);
   };
 
   return (
@@ -98,9 +107,9 @@ export default function AdminManage() {
           name="role"
           data-testid={ `${ROUTE}__${ROLEINP}` }
         >
+          <option value="customer">customer</option>
           <option value="administrator">administrator</option>
           <option value="seller">seller</option>
-          <option value="customer">customer</option>
         </select>
         <button
           type="button"
@@ -111,6 +120,13 @@ export default function AdminManage() {
           CADASTRAR
         </button>
         <span data-testid={ `${ROUTE}__${ERROR}` }>{ errorMessage }</span>
+        <p
+          id="form-invalid-text"
+          hidden={ !conflict }
+          data-testid="admin_manage__element-invalid-register"
+        >
+          Usuário já existe!
+        </p>
       </form>
       <table>
         <thead>
@@ -133,7 +149,7 @@ export default function AdminManage() {
                 <button
                   data-testid={ `${ROUTE}__${REMOVE}${index}` }
                   type="button"
-                  onClick={ () => removeUser(user.id) }
+                  onClick={ () => removeUser(user.id, user.email) }
                 >
                   Remover
                 </button>

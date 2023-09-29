@@ -20,7 +20,8 @@ export default function AdminManage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [login, setLogin] = useState({
     email: '', password: '', name: '', role: 'customer' });
-  const [conflict, setConflict] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [typeError, setTypeError] = useState(false);
 
   useEffect(() => {
     const allUsers = async () => {
@@ -50,9 +51,10 @@ export default function AdminManage() {
       );
       setLogin({ email: '', password: '', name: '', role: 'customer' });
       setUsers([...users, { email, name, password, role }]);
-      setConflict(false);
+      setHasError(false);
     } catch (error) {
-      setConflict(true);
+      setTypeError('Usuário já existe');
+      setHasError(true);
     }
   };
 
@@ -67,9 +69,15 @@ export default function AdminManage() {
   };
 
   const removeUser = async (id, email) => {
-    await requestRegister('/user/remove', { id });
-    const remove = users.filter((user) => user.email !== email);
-    setUsers(remove);
+    try {
+      await requestRegister('/user/remove', { id });
+      const remove = users.filter((user) => user.email !== email);
+      setUsers(remove);
+      setDeleteUser(false);
+    } catch (error) {
+      setTypeError('Usuário não foi excluido');
+      setDeleteUser(true);
+    }
   };
 
   return (
@@ -120,13 +128,11 @@ export default function AdminManage() {
           CADASTRAR
         </button>
         <span data-testid={ `${ROUTE}__${ERROR}` }>{ errorMessage }</span>
-        <p
-          id="form-invalid-text"
-          hidden={ !conflict }
-          data-testid="admin_manage__element-invalid-register"
+        <span
+          hidden={ !hasError }
         >
-          Usuário já existe!
-        </p>
+          { typeError }
+        </span>
       </form>
       <table>
         <thead>
